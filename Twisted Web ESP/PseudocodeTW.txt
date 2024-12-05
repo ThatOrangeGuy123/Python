@@ -1,0 +1,71 @@
+SET LabourHourlyRate TO 50
+SET OvertimeRate TO 1.5 * LabourHourlyRate
+SET LocalTaxRate TO 0.1  // 10% sales tax
+
+// Function to calculate labour cost
+FUNCTION CalculateLabourCost(hoursWorked, isOvertime)
+    IF isOvertime THEN
+        RETURN hoursWorked * OvertimeRate
+    ELSE
+        RETURN hoursWorked * LabourHourlyRate
+    END IF
+END FUNCTION
+
+// Function to calculate total service cost
+FUNCTION CalculateServiceCost(hoursWorked, partCosts, isOvertime)
+    SET LabourCost TO CalculateLabourCost(hoursWorked, isOvertime)
+    SET Subtotal TO LabourCost + partCosts
+    SET Tax TO Subtotal * LocalTaxRate
+    RETURN Subtotal + Tax
+END FUNCTION
+
+// Function to handle dynamic part pricing
+FUNCTION CalculatePartCost(baseCost, discountPercent)
+    SET Discount TO baseCost * (discountPercent / 100)
+    RETURN baseCost - Discount
+END FUNCTION
+
+// Function to manage inventory
+FUNCTION CheckInventory(partID, stockLevel, threshold, expirationDate)
+    IF stockLevel < threshold THEN
+        PRINT "Low Stock Alert for Part ID: " + partID
+    END IF
+    IF expirationDate < CurrentDate THEN
+        PRINT "Part ID " + partID + " has expired."
+    END IF
+END FUNCTION
+
+// Function to generate service package pricing
+FUNCTION GetServicePackagePrice(packageID)
+    SWITCH packageID
+        CASE "Basic":
+            RETURN 100  // Example fixed cost for a basic package
+        CASE "Premium":
+            RETURN 200
+        CASE "Deluxe":
+            RETURN 300
+        DEFAULT:
+            RETURN 0
+    END SWITCH
+END FUNCTION
+
+// Function to generate invoice
+FUNCTION GenerateInvoice(customerInfo, vehicleInfo, dateOfService, services, parts, hoursWorked, isOvertime)
+    SET LabourCost TO CalculateLabourCost(hoursWorked, isOvertime)
+    SET PartCosts TO 0
+    FOR EACH part IN parts DO
+        SET PartCosts TO PartCosts + part.cost
+    END FOR
+    SET TotalCost TO CalculateServiceCost(hoursWorked, PartCosts, isOvertime)
+
+    PRINT "Invoice"
+    PRINT "Customer Information: " + customerInfo
+    PRINT "Vehicle Information: " + vehicleInfo
+    PRINT "Date of Service: " + dateOfService
+    PRINT "Services Provided: " + services
+    PRINT "Itemized Costs:"
+    PRINT "  Labour Cost: " + LabourCost
+    PRINT "  Part Costs: " + PartCosts
+    PRINT "  Tax: " + (LabourCost + PartCosts) * LocalTaxRate
+    PRINT "Total Cost: " + TotalCost
+END FUNCTION
