@@ -108,16 +108,19 @@ class Stock:
 class Customer:
     # GET DETAILS FOR INVOICE FROM CUSTOMER
     def GetDetails():
+        global CustomerName, CustomerVehicleMake
         CustomerName = input("What is your name? ")
         CustomerVehicleMake = input("What is your vehicle make? ")
-        return CustomerName and CustomerVehicleMake
+        return CustomerName, CustomerVehicleMake
     # FUNCTION TO FIGURE OUT THE REPAIR TYPE
     def RepairFind():
+        global RepairType
         print(RepairList)
         RepairType = input("What repair is needed")
         return RepairType
     # FUNCTION TO DO THE REPAIR
     def DoRepair():
+        global LabourTime, PartsCost, Cost
         if RepairType.lower() == "brake pads":
             UseNum = input("How many are needed? ")
             Stocks[0] = Stocks[0] - (1 * UseNum)
@@ -183,7 +186,7 @@ class Customer:
             LabourTime = LabourTime + (10)
         else:
             print("You have not entered a repair type...")
-        return LabourTime and PartsCost and Cost
+        return LabourTime, PartsCost, Cost
 # ENTER LOOP
 while Loop == True:
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -214,7 +217,7 @@ while Loop == True:
             LabourCost = LabourTime * HourlyRate
             Tax = Cost * int(TaxRate)
             TotalCost = Cost + Tax
-            print(f"Name : {CustomerName} Vehicle Make: {CustomerVehicleMake} Date: {Date} Labour Cost: {LabourCost} Parts Cost: {PartsCost} Tax: {Tax} Total: {TotalCost}")
+            print(f"Name : {CustomerName} \nVehicle Make: {CustomerVehicleMake} \nDate: {Date} \nLabour Cost: {LabourCost} \nParts Cost: {PartsCost} \nTax: {Tax} \nTotal: {TotalCost}")
             Loop = False
     for i in range(len(Stocks)):
         if Stocks[i] < 1:
