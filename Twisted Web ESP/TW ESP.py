@@ -199,7 +199,7 @@ class Customer:
             print("You have not entered a repair type...")
         return LabourTime, PartsCost, Cost
 # ENTER LOOP
-while Loop == True or HasEnteredDetails == False:
+while Loop == True and HasEnteredDetails == False:
     os.system('cls' if os.name == 'nt' else 'clear')
     print("Remember to enter details in the Repair Menu")
     MenuAction = input("1. Stock \n2. Repair\n3. Service\n4. Exit\n")
@@ -235,4 +235,3 @@ while Loop == True or HasEnteredDetails == False:
     for i in range(len(Stocks)):
         if Stocks[i] < 1:
             Loop = False
-            
