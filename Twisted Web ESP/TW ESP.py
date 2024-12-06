@@ -5,6 +5,13 @@ import time
 # VARIABLES
 # Stocks in order are Brake Pads, Tyres, Engines, Spark Plugs, Ignition Coils, Batteries, Radiators, Timing Belt, Water Pump, Fuel Cap, Oxygen Sensor, Gearbox
 Stocks = [5,5,5,5,5,5,5,5,5,5,5,5]
+Cost = ""
+TotalCost = ""
+LabourTime = ""
+PartsUsed = []
+CustomerName = "" 
+CustomerVehicleMake = ""
+PartsCost = ""
 Loop = True
 ServiceRequest = "Brake Pads"
 HourlyRate = 50
@@ -102,11 +109,13 @@ class Customer:
     # GET DETAILS FOR INVOICE FROM CUSTOMER
     def GetDetails():
         CustomerName = input("What is your name? ")
-        CustomerVehicleMake = input("What is your name? ")
+        CustomerVehicleMake = input("What is your vehicle make? ")
+        return CustomerName and CustomerVehicleMake
     # FUNCTION TO FIGURE OUT THE REPAIR TYPE
     def RepairFind():
         print(RepairList)
         RepairType = input("What repair is needed")
+        return RepairType
     # FUNCTION TO DO THE REPAIR
     def DoRepair():
         if RepairType.lower() == "brake pads":
@@ -114,52 +123,67 @@ class Customer:
             Stocks[0] = Stocks[0] - (1 * UseNum)
             Cost = Cost + (UseNum * 30)
             LabourTime = LabourTime + (UseNum * 0.25)
+            PartsCost = PartsCost + (UseNum * 30)
         elif RepairType.lower() == "tyres":
             UseNum = input("How many are needed? ")
             Stocks[0] = Stocks[0] - (1 * UseNum)
             Cost = Cost + (UseNum * 50)
             LabourTime = LabourTime + (UseNum * 1)
+            PartsCost = PartsCost + (UseNum * 50)
         elif RepairType.lower() == "engine":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (4000)
             LabourTime = LabourTime + (11)
+            PartsCost = PartsCost + (4000)
         elif RepairType.lower() == "spark plugs":
             UseNum = input("How many are needed? ")
             Stocks[0] = Stocks[0] - (1 * UseNum)
             Cost = Cost + (UseNum * 20)
             LabourTime = LabourTime + (UseNum * 0.25) 
+            PartsCost = PartsCost + (UseNum * 20)
         elif RepairType.lower() == "ignition coils":
-            Stocks[0] = Stocks[0] - 1
+            Stocks[0] = Stocks[0] - UseNum
             Cost = Cost + (175)
             LabourTime = LabourTime + (0.25)
+            PartsCost = PartsCost + (175)
         elif RepairType.lower() == "batteries":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (70)
             LabourTime = LabourTime + (1)
+            PartsCost = PartsCost + (70)
         elif RepairType.lower() == "radiators":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (200)
             LabourTime = LabourTime + (3)
+            PartsCost = PartsCost + (200)
         elif RepairType.lower() == "timing belt":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (100)
             LabourTime = LabourTime + (6)
+            PartsCost = PartsCost + (100)
         elif RepairType.lower() == "water pump":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (250)
             LabourTime = LabourTime + (2)
+            PartsCost = PartsCost + (250)
         elif RepairType.lower() == "fuel cap":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (20)
             LabourTime = LabourTime + (0.25)
+            PartsCost = PartsCost + (20)
         elif RepairType.lower() == "oxygen sensor":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (300)
+            PartsCost = PartsCost + (300)
             LabourTime = LabourTime + (1)
         elif RepairType.lower() == "gearbox":
             Stocks[0] = Stocks[0] - 1
             Cost = Cost + (1500)
+            PartsCost = PartsCost + (1500)
             LabourTime = LabourTime + (10)
+        else:
+            print("You have not entered a repair type...")
+        return LabourTime and PartsCost and Cost
 # ENTER LOOP
 while Loop == True:
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -176,13 +200,24 @@ while Loop == True:
         elif MenuAction == "3":
             Stock.Add()
     elif MenuAction == "2":
-            print("WIP")
+            MenuAction = input("1. Enter Details \n2. Choose Repair \n3. Do Repair\n")
+            CustomerAct = Customer
+            if MenuAction == "1":
+                CustomerAct.GetDetails()
+            elif MenuAction == "2":
+                CustomerAct.RepairFind()
+            elif MenuAction == "3":
+                CustomerAct.DoRepair()
     elif MenuAction == "3":
             print("WIP")
     elif MenuAction == "4":
-            print("WIP")
+            LabourCost = LabourTime * HourlyRate
+            Tax = Cost * int(TaxRate)
+            TotalCost = Cost + Tax
+            print(f"Name : {CustomerName} Vehicle Make: {CustomerVehicleMake} Date: {Date} Labour Cost: {LabourCost} Parts Cost: {PartsCost} Tax: {Tax} Total: {TotalCost}")
+            Loop = False
     for i in range(len(Stocks)):
-        if Stocks[i] > 1:
+        if Stocks[i] < 1:
             Loop = False
 '''END NOTES
 STILL NEED TO MAKE CLASS FOR SERVICES
