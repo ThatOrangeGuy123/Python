@@ -5,6 +5,7 @@ import time
 # VARIABLES
 # Stocks in order are Brake Pads, Tyres, Engines, Spark Plugs, Ignition Coils, Batteries, Radiators, Timing Belt, Water Pump, Fuel Cap, Oxygen Sensor, Gearbox
 Stocks = [5,5,5,5,5,5,5,5,5,5,5,5]
+HasEnteredDetails = False
 Cost = ""
 TotalCost = ""
 LabourTime = ""
@@ -106,11 +107,21 @@ class Stock:
             Stocks[11] = Stocks[11] + 1
 # CLASS FOR ALL CUSTOMER ACTIONS AND INPUTS
 class Customer:
+    def Service():
+        global ServiceType, Cost, LabourTime
+        ServiceType = input("Full or Interim: ")
+        if ServiceType.lower() == "full":
+            Cost  = Cost + 220
+            LabourTime = LabourTime + 3
+        elif ServiceType.lower() == "interim":
+            Cost = Cost + 110
+            LabourTime = LabourTime + 2
     # GET DETAILS FOR INVOICE FROM CUSTOMER
     def GetDetails():
-        global CustomerName, CustomerVehicleMake
+        global CustomerName, CustomerVehicleMake, HasEnteredDetails
         CustomerName = input("What is your name? ")
         CustomerVehicleMake = input("What is your vehicle make? ")
+        HasEnteredDetails = True
         return CustomerName, CustomerVehicleMake
     # FUNCTION TO FIGURE OUT THE REPAIR TYPE
     def RepairFind():
@@ -188,8 +199,9 @@ class Customer:
             print("You have not entered a repair type...")
         return LabourTime, PartsCost, Cost
 # ENTER LOOP
-while Loop == True:
+while Loop == True or HasEnteredDetails == False:
     os.system('cls' if os.name == 'nt' else 'clear')
+    print("Remember to enter details in the Repair Menu")
     MenuAction = input("1. Stock \n2. Repair\n3. Service\n4. Exit\n")
     if MenuAction == "1":
         StockAct = Stock
@@ -212,7 +224,8 @@ while Loop == True:
             elif MenuAction == "3":
                 CustomerAct.DoRepair()
     elif MenuAction == "3":
-            print("WIP")
+            CustomerAct = Customer
+            Customer.Service()
     elif MenuAction == "4":
             LabourCost = LabourTime * HourlyRate
             Tax = Cost * int(TaxRate)
@@ -224,6 +237,4 @@ while Loop == True:
             Loop = False
 '''END NOTES
 STILL NEED TO MAKE CLASS FOR SERVICES
-NEED TO ADD MENU FUNCTIONS 2,3 AND 4
-INVOICE MAKER
-MAKE CUSTOMER ENTER DETAILS'''
+NEED TO ADD MENU FUNCTION 3'''
