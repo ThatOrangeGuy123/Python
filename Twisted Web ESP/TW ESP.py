@@ -21,7 +21,7 @@ RepairList = ("Brake Pads, Tyres, Engines, Spark Plugs, Ignition Coils, Batterie
 RepairType = ""
 Name = ""
 # DEFINE TIME BASED OFF SYSTEM
-Date = datetime.today().strftime('%Y-%m-%d')
+Date = datetime.today().strftime('%d-%m-%Y')
 # CLASS FOR ALL STOCK FUNCTIONS
 class Stock:
     # FUNCTION TO REMOVE STOCK MANUALLY
@@ -230,7 +230,7 @@ while Loop == True or HasEnteredDetails == False:
             LabourCost = LabourTime * HourlyRate
             Tax = Cost * int(TaxRate)
             TotalCost = Cost + Tax
-            print(f"Name : {CustomerName} \nVehicle Make: {CustomerVehicleMake} \nDate: {Date} \nLabour Cost: {LabourCost} \nParts Cost: {PartsCost} \nTax: {Tax} \nTotal: {TotalCost}")
+            print(f"--------------\nName :         {CustomerName}\nVehicle Make:  {CustomerVehicleMake}\nDate:          {Date}\nItems:         {PartsUsed}\nLabour Cost:   £{LabourCost}\nParts Cost:    £{PartsCost}\nTax:           {Tax}\nTotal:         £{TotalCost}\n--------------")
             Loop = False
     for i in range(len(Stocks)):
         if Stocks[i] < 1:
