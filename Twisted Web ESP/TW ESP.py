@@ -235,6 +235,4 @@ while Loop == True or HasEnteredDetails == False:
     for i in range(len(Stocks)):
         if Stocks[i] < 1:
             Loop = False
-'''END NOTES
-STILL NEED TO MAKE CLASS FOR SERVICES
-NEED TO ADD MENU FUNCTION 3'''
+            
